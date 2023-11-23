@@ -1,4 +1,3 @@
-
 from fastapi_users import FastAPIUsers
 
 from fastdemo.api.v1.auth.user import User

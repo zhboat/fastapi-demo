@@ -9,5 +9,5 @@ app_router = APIRouter()
 
 # Authentication
 auth_prefix = "/auth"
-tags = ['Auth']
+tags = ["Auth"]
 app_router.include_router(login.router, prefix=auth_prefix + "/jwt", tags=tags)

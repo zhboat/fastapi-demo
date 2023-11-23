@@ -25,7 +25,7 @@ class Configs(BaseSettings):
 
     # db
     DB_PATH: Path = "/databases/database.db"
-    SYSTEM_DB_PATH: Path = PROJECT_CONFIG_DIR + '/database.db'
+    SYSTEM_DB_PATH: Path = PROJECT_CONFIG_DIR + DB_PATH
     PROJECT_DB_PATH: Path = PROJECT_ROOT_DIR + DB_PATH
     DB_URL: str = f"sqlite+aiosqlite:///{SYSTEM_DB_PATH}"
 
