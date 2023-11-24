@@ -1,7 +1,7 @@
 import os
 import typing
 from pathlib import Path
-from pydantic import AnyUrl, BaseSettings
+from pydantic import AnyUrl, BaseSettings, EmailStr
 
 
 class Configs(BaseSettings):
@@ -14,7 +14,7 @@ class Configs(BaseSettings):
     )
     PROJECT_ROOT_DIR: str = Path(__file__).parent.as_posix()
 
-    EMAIL: str = "admin@fastapi.com"
+    EMAIL: EmailStr = "admin@admin.com"
     PASSWD: str = "admin"
     API_PREFIX: str = "/api/v1"
     GLOBAL_ENCODING: str = "utf8"
