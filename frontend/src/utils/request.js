@@ -11,31 +11,39 @@ export function request(url, options, json = true, ignoreError = false) {
     headers.append("Content-Type", "application/json");
   }
   const opts = { headers, ...options };
-  let filename = "";
   url = "/api/v1" + url;
+
   return fetch(url, opts)
-    .then((r) => {
-      if (r.status !== 200 && !ignoreError) {
+    .then((response) => {
+      const respUrl = response.url;
+      const contentType = response.headers.get("Content-Type");
+
+      if (
+        respUrl.indexOf("auth/login") === -1 &&
+        response.status !== 200 &&
+        !ignoreError
+      ) {
         redirectLogin();
       }
-      const contentType = r.headers.get("Content-Type");
-      debugger;
+
       if (contentType === "application/octet-stream") {
-        const contentDisposition = r.headers.get("Content-Disposition");
-        filename = contentDisposition
+        const contentDisposition = response.headers.get("Content-Disposition");
+        const filename = contentDisposition
           .split(";")[1]
           .split("=")[1]
           .replaceAll('"', "");
-        return r.blob();
+        return response.blob().then((blob) => ({ blob, filename }));
       }
+
       if (contentType === "application/json") {
-        return r.json();
+        return response.json();
       }
-      return r.text();
+
+      return response.text();
     })
     .then((data) => {
-      if (data.type === "application/octet-stream") {
-        downloadBlobFile(data, filename);
+      if (data.blob) {
+        downloadBlobFile(data.blob, data.filename);
         return;
       }
       return data;

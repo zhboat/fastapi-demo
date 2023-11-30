@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   const value = useMemo(() => {
     const login = async (data) => {
       const resp = await AuthAPI.login(data);
-      if (resp.status !== 200) {
+      if (resp.access_token === undefined) {
         setError(true);
         return;
       }
@@ -29,10 +29,7 @@ export const AuthProvider = ({ children }) => {
     // todo: api fail handling
     const logout = async () => {
       await AuthAPI.logout();
-      //   if (resp.status === 200) {
-      //     setUser(null);
       navigate("/login", { replace: true });
-      //   }
     };
 
     return { error, user, login, logout, setUser };
