@@ -18,13 +18,20 @@ export function request(url, options, json = true, ignoreError = false) {
       const respUrl = response.url;
       const contentType = response.headers.get("Content-Type");
 
-      if (respUrl.indexOf("auth/login") === -1 && response.status !== 200 && !ignoreError) {
+      if (
+        respUrl.indexOf("auth/login") === -1 &&
+        response.status !== 200 &&
+        !ignoreError
+      ) {
         redirectLogin();
       }
 
       if (contentType === "application/octet-stream") {
         const contentDisposition = response.headers.get("Content-Disposition");
-        const filename = contentDisposition.split(";")[1].split("=")[1].replaceAll('"', "");
+        const filename = contentDisposition
+          .split(";")[1]
+          .split("=")[1]
+          .replaceAll('"', "");
         return response.blob().then((blob) => ({ blob, filename }));
       }
 
