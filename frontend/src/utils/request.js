@@ -1,9 +1,9 @@
 import { downloadBlobFile } from "./base";
 
-// function redirectLogin() {
-//   window.localStorage.setItem("user", null);
-//   window.location.href = "/login";
-// }
+function redirectLogin() {
+  window.localStorage.setItem("user", null);
+  window.location.href = "/login";
+}
 
 export function request(url, options, json = true, ignoreError = false) {
   const headers = new Headers();
@@ -15,11 +15,11 @@ export function request(url, options, json = true, ignoreError = false) {
   url = "/api/v1" + url;
   return fetch(url, opts)
     .then((r) => {
-      // if (r.status !== 200 && !ignoreError) {
-      //   redirectLogin();
-      // }
-      // const cloned_r = r.clone();
+      if (r.status !== 200 && !ignoreError) {
+        redirectLogin();
+      }
       const contentType = r.headers.get("Content-Type");
+      debugger;
       if (contentType === "application/octet-stream") {
         const contentDisposition = r.headers.get("Content-Disposition");
         filename = contentDisposition
@@ -29,11 +29,6 @@ export function request(url, options, json = true, ignoreError = false) {
         return r.blob();
       }
       if (contentType === "application/json") {
-        // cloned_r.json().then((res) => {
-        //   if (res.status === 10001) {
-        //     redirectLogin();
-        //   }
-        // });
         return r.json();
       }
       return r.text();
