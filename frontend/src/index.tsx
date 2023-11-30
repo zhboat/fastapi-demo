@@ -1,6 +1,7 @@
 import "./index.css";
-import ReactDOM from "react-dom/client";
+import React from "react";
 import App from "./routes/App";
+import ReactDOM from "react-dom/client";
 import { AuthProvider } from "./hooks/useAuth";
 import { BrowserRouter } from "react-router-dom";
 import reportWebVitals from "./reportWebVitals";
