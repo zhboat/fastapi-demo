@@ -1,3 +1,5 @@
+/* global */
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -12,6 +14,14 @@ code {
     monospace;
 }
 
+.warning-font {
+  color: rgb(255, 20, 20);
+}
+
+/* end global */
+
+/* login */
+
 .login-card {
   position: relative;
   top: 300px;
@@ -19,9 +29,43 @@ code {
   margin: 0 auto;
   text-align: center;
   background-color: rgba(232, 232, 232, 0.75);
-  box-shadow: 0.4cm;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
-.warning-font {
-  color: rgb(255, 20, 20);
+/* end login */
+
+/* home */
+
+.home-header {
+  margin: 0;
+  background-color: rgb(255, 255, 255);
+  height: 48px;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);
 }
+.home-content {
+  margin: 0 16px;
+}
+
+.home-breadcrumb {
+  margin: 16px 0;
+}
+
+.home-card {
+  position: relative;
+  min-height: 100%;
+}
+
+.home-footer {
+  text-align: center;
+  font-size: small;
+  height: 18px;
+  margin: 18px 0;
+}
+
+.home-avatar {
+  position: absolute;
+  right: 24px;
+  top: 7px;
+}
+
+/* end home */
