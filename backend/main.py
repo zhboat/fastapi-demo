@@ -2,7 +2,7 @@ import uvicorn
 from fastapi import FastAPI
 
 from config import config
-from fastdemo.init.init_server import lifespan, init_router, init_middleware
+from core.init.init_server import lifespan, init_router, init_middleware
 
 
 if __name__ == "__main__":

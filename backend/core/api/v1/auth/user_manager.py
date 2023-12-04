@@ -4,7 +4,7 @@ from fastapi_users import schemas, BaseUserManager, IntegerIDMixin
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 
 from config import config
-from fastdemo.api.v1.auth.user import User, get_user_db
+from core.api.v1.auth.user import User, get_user_db
 
 
 class UserManager(IntegerIDMixin, BaseUserManager[User, int]):

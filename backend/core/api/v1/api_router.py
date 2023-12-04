@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from fastdemo.api.v1.auth.login import login
+from core.api.v1.auth.login import login
 
 # FEATURES: other routers
 

@@ -4,7 +4,7 @@ from sqlalchemy import Column, Integer
 from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTable, SQLAlchemyUserDatabase
 
 from config import config
-from fastdemo.api.v1.auth.model import Base, get_async_session
+from core.api.v1.auth.model import Base, get_async_session
 
 
 class User(SQLAlchemyBaseUserTable, Base):

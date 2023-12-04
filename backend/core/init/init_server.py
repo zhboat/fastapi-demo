@@ -7,14 +7,14 @@ from fastapi_users.exceptions import UserAlreadyExists
 from starlette.middleware.cors import CORSMiddleware
 
 from config import config
-from fastdemo.api.v1 import app_router
-from fastdemo.api.v1.auth.model import (
+from core.api.v1 import app_router
+from core.api.v1.auth.model import (
     Base,
     engine,
     get_async_session,
 )
-from fastdemo.api.v1.auth.user import get_user_db
-from fastdemo.api.v1.auth.user_manager import get_user_manager, UserCreate
+from core.api.v1.auth.user import get_user_db
+from core.api.v1.auth.user_manager import get_user_manager, UserCreate
 
 
 def init_router(app: FastAPI):
