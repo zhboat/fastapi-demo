@@ -1,6 +1,5 @@
 import os
 import shutil
-import contextlib
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from fastapi_users.exceptions import UserAlreadyExists
@@ -11,7 +10,7 @@ from core.api.v1 import app_router
 from core.api.v1.auth.model import (
     Base,
     engine,
-    get_async_session,
+    async_session_context,
 )
 from core.api.v1.auth.user import get_user_db
 from core.api.v1.auth.user_manager import get_user_manager, UserCreate
@@ -49,12 +48,12 @@ async def init_user():
     password = config.PASSWD
     is_superuser = True
     is_active = True
+    is_verified = False
 
-    get_async_session_context = contextlib.asynccontextmanager(get_async_session)
-    get_user_db_context = contextlib.asynccontextmanager(get_user_db)
-    get_user_manager_context = contextlib.asynccontextmanager(get_user_manager)
+    get_user_db_context = asynccontextmanager(get_user_db)
+    get_user_manager_context = asynccontextmanager(get_user_manager)
     try:
-        async with get_async_session_context() as session:
+        async with async_session_context() as session:
             async with get_user_db_context(session) as user_db:
                 async with get_user_manager_context(user_db) as user_manager:
                     user = await user_manager.create(
@@ -64,6 +63,7 @@ async def init_user():
                             password=password,
                             is_superuser=is_superuser,
                             is_active=is_active,
+                            is_verified=is_verified,
                         )
                     )
                     print(f"User created {user}")

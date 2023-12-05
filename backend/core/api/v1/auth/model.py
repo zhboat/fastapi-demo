@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from sqlalchemy.ext.declarative import DeclarativeMeta
 from sqlalchemy.orm import sessionmaker, declarative_base
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
@@ -12,12 +13,15 @@ from config import config
 Base: DeclarativeMeta = declarative_base()
 engine = create_async_engine(config.DB_URL)
 async_session_maker = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
-bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
+bearer_transport = BearerTransport(tokenUrl="api/v1/auth/login")
 
 
 async def get_async_session():
     async with async_session_maker() as session:
         yield session
+
+
+async_session_context = asynccontextmanager(get_async_session)
 
 
 def get_jwt_strategy() -> JWTStrategy:
