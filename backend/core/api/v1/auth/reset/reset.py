@@ -12,26 +12,26 @@ from core.api.v1.auth.router import current_active_user
 router = APIRouter()
 
 
-def get_password(password: str):
+def get_hashed_password(password: str):
     pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
     return pwd_context.hash(password)
 
 
 @router.post(path="/reset_password")
 async def reset_password(
-    psw: Annotated[str, Body()], user: User = Depends(current_active_user)
+    pwd: Annotated[str, Body()], user: User = Depends(current_active_user)
 ):
     async with async_session_context() as session:
         statement = select(user_model).where(user_model.email == user.email)
         ret = await session.execute(statement)
         db = ret.scalars().first()
         if db:
-            db.hashed_password = get_password(psw)
+            db.hashed_password = get_hashed_password(pwd)
             db.is_verified = 1
             await session.commit()
             await session.refresh(db)
         else:
             raise HTTPException(
                 status_code=2001,
-                detail="仅可为本用户重置密码",
+                detail="禁止修改其他用户的密码",
             )
