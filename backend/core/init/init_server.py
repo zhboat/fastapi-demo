@@ -66,7 +66,11 @@ async def init_user():
                             is_verified=is_verified,
                         )
                     )
-                    print(f"User created {user}")
+                    print(
+                        "*****" * 10
+                        + f"\nYour temporary password is:{password}\n"
+                        + "*****" * 10
+                    )
     except UserAlreadyExists:
         pass
 
