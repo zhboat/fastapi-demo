@@ -5,10 +5,20 @@ function redirectLogin() {
   window.location.href = "/login";
 }
 
-export function request(url, options, json = true, ignoreError = false) {
+export function request(
+  url,
+  options,
+  auth = true,
+  json = true,
+  ignoreError = false,
+) {
   const headers = new Headers();
   if (json) {
     headers.append("Content-Type", "application/json");
+  }
+  if (auth) {
+    const authToken = window.localStorage.getItem("token");
+    headers.append("Authorization", "Bearer " + JSON.parse(authToken));
   }
   const opts = { headers, ...options };
   url = "/api/v1" + url;
@@ -42,7 +52,7 @@ export function request(url, options, json = true, ignoreError = false) {
       return response.text();
     })
     .then((data) => {
-      if (data.blob) {
+      if (data && data.blob) {
         downloadBlobFile(data.blob, data.filename);
         return;
       }

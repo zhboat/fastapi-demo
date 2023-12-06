@@ -7,6 +7,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useLocalStorage("user", null);
+  const [token, setToken] = useLocalStorage("token", null);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
 
@@ -18,22 +19,28 @@ export const AuthProvider = ({ children }) => {
         return;
       }
 
-      // clear nav local storage when login success
       localStorage.removeItem("nav");
 
       setError(false);
+      setToken(resp.access_token);
       setUser(data.username);
       navigate("/", { replace: true });
     };
 
-    // todo: api fail handling
     const logout = async () => {
       await AuthAPI.logout();
+      localStorage.removeItem("token");
       navigate("/login", { replace: true });
     };
 
-    return { error, user, login, logout, setUser };
-  }, [error, setError, user, setUser, navigate]);
+    const resetPassword = async (data) => {
+      await AuthAPI.resetPassword(data);
+      localStorage.removeItem("token");
+      navigate("/login", { replace: true });
+    };
+
+    return { error, user, token, login, logout, setUser, resetPassword };
+  }, [error, setError, user, token, setToken, setUser, navigate]);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
