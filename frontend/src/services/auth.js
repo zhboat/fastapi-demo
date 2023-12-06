@@ -16,9 +16,24 @@ function logout() {
   });
 }
 
+function resetPassword(params) {
+  return request("/auth/reset_password", {
+    method: "POST",
+    body: JSON.stringify(params),
+  });
+}
+
+function getUser() {
+  return request("/auth/user", {
+    method: "GET",
+  });
+}
+
 const AuthAPI = {
   login,
   logout,
+  resetPassword,
+  getUser,
 };
 
 export default AuthAPI;
